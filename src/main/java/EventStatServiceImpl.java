@@ -11,6 +11,11 @@ public class EventStatServiceImpl implements EventStatService {
     private ConcurrentHashMap<Long, Long> eventsHashMap;
     private final ScheduledExecutorService cleanService;
 
+    /**
+     * An implementation of EventStatService that uses ConcurrentHashMap to store events.
+     * To optimize the memory, use the scheduled cleanup task. The task starts every hour.
+     * For the first time, the task runs 24 hours after the EventStatsServiceImpl is initialized.
+     */
     public EventStatServiceImpl() {
         this.eventsHashMap = new ConcurrentHashMap<>();
         cleanService = Executors.newSingleThreadScheduledExecutor();
