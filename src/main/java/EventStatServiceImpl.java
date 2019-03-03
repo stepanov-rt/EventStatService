@@ -5,17 +5,17 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+/**
+ * An implementation of EventStatService that uses ConcurrentHashMap to store events.
+ * To optimize the memory, use the scheduled cleanup task. The task starts every hour.
+ * For the first time, the task runs 24 hours after the EventStatsServiceImpl is initialized.
+ */
 public class EventStatServiceImpl implements EventStatService {
 
     private final Logger logger = Logger.getLogger(EventStatServiceImpl.class.getName());
     private ConcurrentHashMap<Long, Long> eventsHashMap;
     private final ScheduledExecutorService cleanService;
 
-    /**
-     * An implementation of EventStatService that uses ConcurrentHashMap to store events.
-     * To optimize the memory, use the scheduled cleanup task. The task starts every hour.
-     * For the first time, the task runs 24 hours after the EventStatsServiceImpl is initialized.
-     */
     public EventStatServiceImpl() {
         this.eventsHashMap = new ConcurrentHashMap<>();
         cleanService = Executors.newSingleThreadScheduledExecutor();
